@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-
         sizeSpinner = (Spinner) findViewById(R.id.sizeSpinner);
         startButton = findViewById(R.id.startButton);
 

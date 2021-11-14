@@ -166,11 +166,16 @@ public class MemoryActivity extends AppCompatActivity {
         return c;
     }
 
-    public void onButtonClick(View view){
+    
+    public void onClick(View view){
 
+    }
+
+    public void onButtonClick(View view){
+        /*
         if(blockSelection)
             return;
-
+        */
         ImageButton button = (ImageButton) view;
         Position pos = null;
         for(int i = 0; i < buttons.length; i++){

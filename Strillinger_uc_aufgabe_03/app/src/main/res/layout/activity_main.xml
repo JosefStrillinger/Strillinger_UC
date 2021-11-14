@@ -20,7 +20,8 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:text="SCORE:"
-            android:textSize="48sp" />
+            android:textSize="48sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/score"
