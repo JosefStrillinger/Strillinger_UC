@@ -42,8 +42,7 @@ public class MemoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent homeScreen = new Intent(this, StartActivity.class);
-
+        Intent homeScreen = new Intent(this, MainActivity.class);
         this.finish();
         startActivity(homeScreen);
 
@@ -191,10 +190,7 @@ public class MemoryActivity extends AppCompatActivity {
 
         int value = field.getCard(pos).getValue();
 
-
         button.setImageResource(pics[value-110]);
-
-
 
         if(previousCard == null){
             previousCard = pos;
@@ -213,7 +209,6 @@ public class MemoryActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     public void closeCards(Position pos1, Position pos2){

@@ -37,8 +37,9 @@
             android:id="@+id/sizeSpinner"
             android:layout_width="match_parent"
             android:layout_height="66dp"
+            android:background="@color/design_default_color_secondary_variant"
             android:entries="@array/spinnerContents"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
     </LinearLayout>
 

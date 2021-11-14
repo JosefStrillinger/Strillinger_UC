@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 
         sizeSpinner = (Spinner) findViewById(R.id.sizeSpinner);
@@ -40,19 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        startButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                startGame();
-
-                return false;
-            }
-        });
-
     }
-
-
 
     private boolean changeActivity(){
         if(sizeSpinner != null){
@@ -70,21 +58,5 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("ERROR: Spinner is NULL!");
             return false;
         }
-    }
-
-
-    private boolean firstStart = true;
-
-    public void startGame(View view) {
-        startGame();
-    }
-
-    public void startGame(){
-
-        //startButton.setMaxFrame(60);
-        startButton.setVisibility(View.VISIBLE);
-
-
-
     }
 }
