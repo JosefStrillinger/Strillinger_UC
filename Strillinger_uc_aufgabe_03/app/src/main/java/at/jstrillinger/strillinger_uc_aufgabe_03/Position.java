@@ -1,11 +1,11 @@
-package at.jstrillinger.strillinger_uc_aufgabe_03.model;
-
-import java.util.Objects;
+package at.jstrillinger.strillinger_uc_aufgabe_03;
 
 public class Position {
 
     public int x;
     public int y;
+
+    public Position(){}
 
     public Position(int xHelp, int yHelp){
         x = xHelp;

@@ -1,8 +1,10 @@
-package at.jstrillinger.strillinger_uc_aufgabe_03.model;
+package at.jstrillinger.strillinger_uc_aufgabe_03;
 
 public class Card {
     private boolean visible;
     private int value;
+
+    public Card(){}
 
     public Card(boolean visible, int value) {
         this.visible = visible;

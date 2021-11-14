@@ -11,7 +11,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-public class MainActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     private Playground playground;
     private Spinner sizeSpinner;
@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         if(sizeSpinner != null){
             String spinnerContent = sizeSpinner.getSelectedItem().toString();
 
-            if(spinnerContent.equals("Choose")) {
+            if(spinnerContent.equals("Choose"))
                 return false;
-            }
+
             Intent changeActivityIntent = new Intent(this, MemoryActivity.class);
             changeActivityIntent.putExtra("gameSize", sizeSpinner.getSelectedItem().toString());
             startActivity(changeActivityIntent);

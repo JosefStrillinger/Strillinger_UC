@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">Strillinger_uc_aufgabe_03</string>
+    <string name="app_name">Strillinger_Memory</string>
+
+    <array name="spinnerContents">
+        <item>Choose</item>
+        <item>2x4</item>
+        <item>3x6</item>
+        <item>4x4</item>
+        <item>4x6</item>
+        <item>6x6</item>
+        <item>8x8</item>
+    </array>
+
 </resources>
