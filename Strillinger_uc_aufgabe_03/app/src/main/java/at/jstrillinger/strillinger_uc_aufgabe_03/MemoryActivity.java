@@ -166,7 +166,7 @@ public class MemoryActivity extends AppCompatActivity {
         return c;
     }
 
-    
+
     public void onClick(View view){
 
     }

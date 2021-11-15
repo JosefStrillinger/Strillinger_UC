@@ -11,51 +11,52 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class MainActivity extends AppCompatActivity {
 
     private Playground playground;
     private Spinner sizeSpinner;
 
-    Button startButton;
+    private Button startButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        startButton = (Button)findViewById(R.id.startButton);
 
-        sizeSpinner = (Spinner) findViewById(R.id.sizeSpinner);
-        startButton = findViewById(R.id.startButton);
-
-        sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                startButton.setFocusedByDefault(true);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                changeActivity();
             }
         });
     }
 
-    private boolean changeActivity(){
+    private void changeActivity(){
         if(sizeSpinner != null){
             String spinnerContent = sizeSpinner.getSelectedItem().toString();
 
             if(spinnerContent.equals("Choose")) {
-                return false;
+
+                String message = "Bitte wählen Sie eine der Größen";
+                showSnackbar(startButton, message, 1000);
             }
             Intent changeActivityIntent = new Intent(this, MemoryActivity.class);
             changeActivityIntent.putExtra("gameSize", sizeSpinner.getSelectedItem().toString());
             startActivity(changeActivityIntent);
             this.finish();
-            return true;
         }else{
             System.out.println("ERROR: Spinner is NULL!");
-            return false;
+            String message = "Bitte wählen Sie eine der Größen";
+            showSnackbar(startButton, message, 1000);
         }
+    }
+
+    public void showSnackbar(View view, String message, int duration)
+    {
+        Snackbar.make(view, message, duration).show();
     }
 }
