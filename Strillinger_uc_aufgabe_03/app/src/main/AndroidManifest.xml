@@ -13,6 +13,7 @@
             android:name=".MemoryActivity"
             android:exported="true"/>
 
+
         <activity
             android:name=".MainActivity"
 

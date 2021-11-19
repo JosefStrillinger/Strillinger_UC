@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Playground playground;
     private Spinner sizeSpinner;
-
+    private LinearLayout startField;
     private Button startButton;
 
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         startButton = (Button)findViewById(R.id.startButton);
         sizeSpinner = (Spinner)findViewById(R.id.sizeSpinner);
+        startField = (LinearLayout) findViewById(R.id.playingField);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,21 +39,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeActivity(){
+
         if(sizeSpinner != null){
             String spinnerContent = sizeSpinner.getSelectedItem().toString();
-
+            /*
             if(spinnerContent.equals("Choose")) {
                 String message = "Bitte wählen Sie eine zulässige Größe";
-                showSnackbar(startButton, message, 1000);
+                showSnackbar(startButton, message, Snackbar.LENGTH_INDEFINITE);
             }
-            Intent changeActivityIntent = new Intent(this, MemoryActivity.class);
+            */
+             
+            Intent changeActivityIntent = new Intent(MainActivity.this, MemoryActivity.class);
             changeActivityIntent.putExtra("gameSize", sizeSpinner.getSelectedItem().toString());
             startActivity(changeActivityIntent);
             this.finish();
         }else{
             System.out.println("ERROR: Spinner is NULL!");
             String message = "Bitte wählen Sie eine der Größen";
-            showSnackbar(startButton, message, 1000);
+            showSnackbar(startButton, message, Snackbar.LENGTH_INDEFINITE);
         }
     }
 

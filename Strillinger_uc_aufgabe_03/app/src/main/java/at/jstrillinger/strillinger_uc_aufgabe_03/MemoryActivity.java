@@ -96,7 +96,7 @@ public class MemoryActivity extends AppCompatActivity {
     }
 
     public static int[] getPicsArray() {
-        int[] c = new int[20];
+        int[] c = new int[64];
 
         c[0] = R.drawable.i000;
         c[1] = R.drawable.i001;

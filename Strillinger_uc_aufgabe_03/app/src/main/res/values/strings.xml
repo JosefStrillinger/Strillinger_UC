@@ -2,7 +2,7 @@
     <string name="app_name">Strillinger_Memory</string>
 
     <array name="spinnerContents">
-        <item>Choose</item>
+
         <item>2x4</item>
         <item>3x6</item>
         <item>4x4</item>
