@@ -21,12 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private Button startButton;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         startButton = (Button)findViewById(R.id.startButton);
-
+        sizeSpinner = (Spinner)findViewById(R.id.sizeSpinner);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
             String spinnerContent = sizeSpinner.getSelectedItem().toString();
 
             if(spinnerContent.equals("Choose")) {
-
-                String message = "Bitte wählen Sie eine der Größen";
+                String message = "Bitte wählen Sie eine zulässige Größe";
                 showSnackbar(startButton, message, 1000);
             }
             Intent changeActivityIntent = new Intent(this, MemoryActivity.class);

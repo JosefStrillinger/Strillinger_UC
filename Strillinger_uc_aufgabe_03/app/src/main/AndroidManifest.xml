@@ -10,7 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Strillinger_uc_aufgabe_03">
         <activity
+            android:name=".MemoryActivity"
+            android:exported="true"/>
+
+        <activity
             android:name=".MainActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
