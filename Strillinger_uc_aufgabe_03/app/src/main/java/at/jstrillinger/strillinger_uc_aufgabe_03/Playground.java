@@ -31,9 +31,9 @@ public class Playground {
         //Idee zum Vorgehen: values in eine ArrayList/ ein Array geben, dann mit Random werte generieren lassen.
         //Zu beachten: Man braucht nur halb so viele Werte, wie man Karten hat, weil es ja Pärchen sind
         //Lösungswerg: Überprüfen, ob das bestimmte value bereits existiert
-        if(isInitialized){
+        if(isInitialized)
             return;
-        }
+
 
         Random rand = new Random();
         ArrayList<Integer> helpPics = new ArrayList<Integer>();
@@ -58,7 +58,7 @@ public class Playground {
                     break;
                 }
             }
-            helpVal = i;
+
         }
 
         Collections.shuffle(helpCard);
@@ -101,10 +101,13 @@ public class Playground {
         return cards[pos.x][pos.y];
     }
 
-    private int getNrPairs(){
-        int numAnz = cards.length/2;
+    public int getNrPairs(){
+        int numAnz = cards.length/4
+                ;
         return numAnz;
     }
+
+
 
     private Card getRandomCard(Random r){
         int randomRow = r.nextInt(x-1)+1;

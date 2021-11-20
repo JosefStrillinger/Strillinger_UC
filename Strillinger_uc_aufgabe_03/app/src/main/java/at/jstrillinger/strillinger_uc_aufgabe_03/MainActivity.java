@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 showSnackbar(startButton, message, Snackbar.LENGTH_INDEFINITE);
             }
             */
-             
+
             Intent changeActivityIntent = new Intent(MainActivity.this, MemoryActivity.class);
             changeActivityIntent.putExtra("gameSize", sizeSpinner.getSelectedItem().toString());
             startActivity(changeActivityIntent);

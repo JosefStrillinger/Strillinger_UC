@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,10 +43,9 @@ public class MemoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent homeScreen = new Intent(this, MainActivity.class);
+        Intent startScreen = new Intent(this, MainActivity.class);
         this.finish();
-        startActivity(homeScreen);
-
+        startActivity(startScreen);
     }
 
     private void generateGrid(int nrCol, int nrRows){
@@ -165,16 +166,18 @@ public class MemoryActivity extends AppCompatActivity {
         return c;
     }
 
-
+/*
     public void onClick(View view){
 
     }
-
+*/
     public void onButtonClick(View view){
-        /*
+        //Es gibt nur jeweils eins von jeder Karte
+        //Lösung: Ka, vllt init, oder generateGrid / generateButton
+
         if(blockSelection)
             return;
-        */
+
         ImageButton button = (ImageButton) view;
         Position pos = null;
         for(int i = 0; i < buttons.length; i++){
@@ -194,8 +197,8 @@ public class MemoryActivity extends AppCompatActivity {
 
         int value = field.getCard(pos).getValue();
 
-        button.setImageResource(pics[value-110]);
-
+        //button.setImageResource(pics[value-110]);
+        button.setImageResource(field.getCard(pos).getValue());
         if(previousCard == null){
             previousCard = pos;
         }else{
@@ -207,7 +210,8 @@ public class MemoryActivity extends AppCompatActivity {
                 pairs++;
                 previousCard = null;
                 field.getCard(pos).setVisible(true);
-                if(pairs >= (field.x*field.y)/4){
+                field.getCard(previousCard).setVisible(true);
+                if(pairs >= (field.x*field.y)/2){
                     if(field.finished())
                         showVictory();
                 }
@@ -250,6 +254,7 @@ public class MemoryActivity extends AppCompatActivity {
 
 
     private void showVictory(){
+
     }
 
 }
