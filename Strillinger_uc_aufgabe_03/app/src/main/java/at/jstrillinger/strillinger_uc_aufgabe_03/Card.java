@@ -1,8 +1,8 @@
 package at.jstrillinger.strillinger_uc_aufgabe_03;
 
 public class Card {
-    private boolean visible;
-    private int value;
+    private boolean visible = false;
+    private int value = -1;
 
     public Card(){}
 

@@ -27,33 +27,29 @@ public class Playground {
     }
 
     public void init(){
-        //values für die verschiedenen Karten zuweisen, dabei ist zu beachten, das Pärchen immer die selben values haben
-        //Idee zum Vorgehen: values in eine ArrayList/ ein Array geben, dann mit Random werte generieren lassen.
-        //Zu beachten: Man braucht nur halb so viele Werte, wie man Karten hat, weil es ja Pärchen sind
-        //Lösungswerg: Überprüfen, ob das bestimmte value bereits existiert
+
         if(isInitialized)
             return;
 
-
         Random rand = new Random();
         ArrayList<Integer> helpPics = new ArrayList<Integer>();
-        List<Card> helpCard = new ArrayList<Card>();
+        List<Card> card = new ArrayList<Card>();
         int[] picsArr = MemoryActivity.getPicsArray();
 
-        for(int i = 0; i < x*y; i++){
-            helpCard.add(new Card());
+        for(int i = 0; i < getNrPairs(); i++){
+            card.add(new Card());
         }
 
-        int helpVal = 0;
+        int helpVal;
 
-        for(int i = 0; i < helpCard.size(); i+=2){
+        for(int i = 0; i < (card.size()); i+=2){
             while (true) {
                 //int help = rand.nextInt(10/2);
-                helpVal = rand.nextInt(picsArr.length - 0) + 0;
+                helpVal = rand.nextInt(picsArr.length - 0);
                 if (!helpPics.contains(helpVal)) {
-                    helpCard.get(i).setValue(picsArr[helpVal]);
-                    helpCard.get(i).setVisible(true);
-                    helpCard.get(i + 1).setValue(picsArr[helpVal]);
+                    card.get(i).setValue(picsArr[helpVal]);
+                    //card.get(i).setVisible(false);
+                    card.get(i + 1).setValue(picsArr[helpVal]);
                     helpPics.add(helpVal);
                     break;
                 }
@@ -61,30 +57,28 @@ public class Playground {
 
         }
 
-        Collections.shuffle(helpCard);
+        Collections.shuffle(card);
 
         int temp = 0;
-        for(int i = 0; i < x; i++){
-            for(int j = 0; j < y; j++){
-                cards[i][j] = helpCard.get(temp);
+        for(int i = 0; i < cards.length; i++){
+            for(int j = 0; j < cards[0].length; j++){
+                cards[i][j] = card.get(temp);
                 temp++;
             }
         }
 
         isInitialized = true;
 
-        //Position: Herausfinden, wie man Position setzt und wie man prüft, ob dort schon was liegt
-        //Lösung: vermutlich die equals von Position
-
     }
 
     private Card play(Position pos){
+
         return cards[pos.x][pos.y];
     }
 
     boolean finished(){
         for(int i = 0; i < cards.length; i++){
-            for(int j = 0; j < cards[i].length; i++){
+            for(int j = 0; j < cards[i].length; j++){
                 if(!cards[i][j].isVisible()){
                     return false;
                 }
@@ -95,20 +89,19 @@ public class Playground {
 
     public boolean isPair(Position pos1, Position pos2){
         return(cards[pos1.x][pos1.y].getValue() == cards[pos2.x][pos2.y].getValue());
+        //return(getCard(pos1).getValue() == getCard(pos2).getValue());
     }
 
     public Card getCard(Position pos){
+
         return cards[pos.x][pos.y];
     }
 
     public int getNrPairs(){
-        int numAnz = cards.length/4
-                ;
-        return numAnz;
+
+        return cards.length * cards[0].length;
     }
-
-
-
+    
     private Card getRandomCard(Random r){
         int randomRow = r.nextInt(x-1)+1;
         int randomCol = r.nextInt(y-1)+1;

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -27,7 +28,16 @@ public class MemoryActivity extends AppCompatActivity {
     private ImageButton[][] buttons;
     private LinearLayout playingField;
     private int pairs = 0;
-    private boolean blockSelection = false;
+    private boolean noSelection = false;
+    public boolean playerNow = true;
+    final private int plusScore = 10;
+    final private int minusScore = 2;
+    private TextView playerOneScore;
+    private TextView playerTwoScore;
+    public int btnHeight;
+    public int btnWidth;
+    public int height;
+    public int width;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +46,16 @@ public class MemoryActivity extends AppCompatActivity {
 
         playingField = (LinearLayout) findViewById(R.id.playingField);
 
+        height = playingField.getMeasuredHeight()+0;
+        System.out.println(height);
+        width = playingField.getMeasuredWidth()+0;
+        System.out.println(width);
         pics = getPicsArray();
 
-        receiveMessage();
+        playerOneScore = (TextView) findViewById(R.id.playerOneScore);
+        playerTwoScore = (TextView) findViewById(R.id.playerTwoScore);
+
+        createGame();
     }
 
     @Override
@@ -48,30 +65,48 @@ public class MemoryActivity extends AppCompatActivity {
         startActivity(startScreen);
     }
 
-    private void generateGrid(int nrCol, int nrRows){
+    private void createGame(){
+        String fieldSize = getIntent().getStringExtra("gameSize");
 
-        buttons = new ImageButton[nrRows][nrCol];
-        ArrayList<LinearLayout> playingRows = new ArrayList<LinearLayout>();
+        String[] sizes = fieldSize.split("x");
 
-        for(int i = 0; i < nrRows; i++){
-            playingRows.add(new LinearLayout(this));
-            playingRows.get(playingRows.size()-1).setOrientation(LinearLayout.HORIZONTAL);
-            playingRows.get(playingRows.size()-1).setLayoutParams(new AbsListView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            playingRows.get(playingRows.size()-1).setGravity(Gravity.CENTER);
+        int x = Integer.parseInt(sizes[0]);
+        int y = Integer.parseInt(sizes[1]);
 
-            playingField.addView(playingRows.get(playingRows.size()-1));
-            for(int j = 0; j < nrCol; j++){
-                buttons[i][j] = generateButton(new Position());
-
-                playingRows.get(playingRows.size()-1).addView(buttons[i][j]);
+        btnHeight = Math.round(height/x);
+        btnWidth = Math.round(width/y);
+        field = new Playground(x, y);
+        //field.init();
+        buttons = new ImageButton[x][y];
+        for(int i = 0; i < buttons.length; i++){
+            for(int j = 0; j < buttons[0].length; j++){
+                buttons[i][j] = generateButton(new Position(i, j));
             }
+        }
+        generateGrid(y, x);
+    }
+
+    private void generateGrid(int nrCol, int nrRow){
+        for(int i = 0; i < nrRow; i++){
+            playingField.addView(generateAndAddRows(i, nrCol));
         }
     }
 
-    private void generateAndAddRows(int row, int nrCols){
+    private LinearLayout generateAndAddRows(int row, int nrCol){
+        LinearLayout layout = new LinearLayout(this);
+        layout.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        layout.setGravity(Gravity.CENTER);
 
+        for(int i = 0; i < nrCol; i++){
+            try{
+                layout.addView(buttons[row][i]);
+            }catch(ArrayIndexOutOfBoundsException e){
+
+            }
+        }
+        return layout;
     }
 
     private ImageButton generateButton(Position pos){
@@ -90,8 +125,13 @@ public class MemoryActivity extends AppCompatActivity {
 
         ViewGroup.LayoutParams params = button.getLayoutParams();
 
-        params.height = 150;
-        params.width = 100;
+        params.height = 225;
+        params.width = 175;
+
+        System.out.println(btnHeight);
+        System.out.println(btnWidth);
+
+        button.setLayoutParams(params);
 
         return button;
     }
@@ -166,16 +206,10 @@ public class MemoryActivity extends AppCompatActivity {
         return c;
     }
 
-/*
-    public void onClick(View view){
 
-    }
-*/
     public void onButtonClick(View view){
-        //Es gibt nur jeweils eins von jeder Karte
-        //Lösung: Ka, vllt init, oder generateGrid / generateButton
 
-        if(blockSelection)
+        if(noSelection)
             return;
 
         ImageButton button = (ImageButton) view;
@@ -184,39 +218,49 @@ public class MemoryActivity extends AppCompatActivity {
             for(int j = 0; j < buttons[i].length; j++){
                 if(buttons[i][j] == button){
                     pos = new Position(i, j);
+                    System.out.println("X: " + pos.x + " Y: " + pos.y);
                     break;
                 }
             }
         }
 
-        if(pos == null)
+        if(pos == null) {
+            System.out.println("Null");
             return;
+        }
 
-        if(field.getCard(pos).isVisible())
+        if(field.getCard(pos).isVisible()) {
+            System.out.println("Visible");
             return;
+        }
 
-        int value = field.getCard(pos).getValue();
 
-        //button.setImageResource(pics[value-110]);
         button.setImageResource(field.getCard(pos).getValue());
-        if(previousCard == null){
-            previousCard = pos;
-        }else{
-            blockSelection = true;
-            if(!field.isPair(previousCard, pos)){
-                closeCards(previousCard, pos);
-            }else{
-                blockSelection = false;
+        if(previousCard != null){
+            noSelection = true;
+            if(field.isPair(pos, previousCard)) {
                 pairs++;
-                previousCard = null;
+                refreshScore(true, playerNow);
                 field.getCard(pos).setVisible(true);
                 field.getCard(previousCard).setVisible(true);
-                if(pairs >= (field.x*field.y)/2){
-                    if(field.finished())
-                        showVictory();
+                if(pairs >= ((buttons.length*buttons[0].length)/2)){
+                    if(field.finished()){
+                        showVictory(playingField);
+                    }
                 }
+                noSelection = false;
+                previousCard = null;
+            } else {
+                playerNow = !playerNow;
+                refreshScore(false, playerNow);
+                closeCards(previousCard, pos);
+                previousCard = null;
+                noSelection = false;
             }
+        } else {
+            previousCard = pos;
         }
+
     }
 
     public void closeCards(Position pos1, Position pos2){
@@ -228,7 +272,7 @@ public class MemoryActivity extends AppCompatActivity {
                     buttons[pos1.x][pos1.y].setImageResource(R.drawable.back);
                     buttons[pos2.x][pos2.y].setImageResource(R.drawable.back);
                     previousCard = null;
-                    blockSelection = false;
+                    noSelection = false;
                 });
             }
         }
@@ -237,24 +281,36 @@ public class MemoryActivity extends AppCompatActivity {
         timer.schedule(new CloseTask(),1000);
     }
 
-    private void receiveMessage(){
-        String fieldSize = getIntent().getStringExtra("gameSize");
+    private void showVictory(View view){
+        int player1 = Integer.parseInt(playerOneScore.getText().toString());
+        int player2 = Integer.parseInt(playerTwoScore.getText().toString());
 
-        String[] sizes = fieldSize.split("x");
-
-        int x = Integer.parseInt(sizes[0]);
-        int y = Integer.parseInt(sizes[1]);
-
-
-        field = new Playground(x, y);
-        field.init();
-
-        generateGrid(y, x);
+        if(player1 > player2) {
+            Snackbar.make(view, "Spieler 1 hat gewonnen ", Snackbar.LENGTH_LONG).show();
+        } else if(player1 == player2){
+            Snackbar.make(view, "Keiner hat gewonnen", Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(view, "Spieler 2 hat gewonnen", Snackbar.LENGTH_LONG).show();
+        }
     }
 
+    public void refreshScore(boolean pairFound, boolean player){
+        TextView playerNow;
+        if(player == true){
+            playerNow = playerOneScore;
+        } else {
+            playerNow = playerTwoScore;
+        }
 
-    private void showVictory(){
+        int playerScore = Integer.parseInt(playerNow.getText().toString());
 
+        if(pairFound){
+            playerScore += plusScore;
+        } else {
+            playerScore -= minusScore;
+        }
+        playerNow.setText(String.valueOf(playerScore));
     }
+
 
 }
