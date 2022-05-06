@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ChatSoftware</string>
+    <string name="hivemq_uri">ssl://46572ee1b97c4293b953e1d6e855e31e.s2.eu.hivemq.cloud</string>
+    <string name="hivemq_user">jstrillinger</string>
+    <string name="hivemq_password">Moyang_11</string>
+</resources>
